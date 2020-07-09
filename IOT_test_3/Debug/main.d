@@ -24,8 +24,8 @@ main.d main.o: .././main.c \
  ../FreeRTOS/src/list.h ../drivers/FreeRTOSTraceDriver.h \
  ../drivers/stdio_driver.h ../drivers/lora_driver.h \
  ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
- .././bits.h ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
- .././EventGroupWrapper.h .././ResourceHandler.h ../FreeRTOS/src/semphr.h \
+ .././bits.h .././EventGroupWrapper.h ../FreeRTOS/src/event_groups.h \
+ ../FreeRTOS/src/timers.h .././ResourceHandler.h ../FreeRTOS/src/semphr.h \
  ../FreeRTOS/src/queue.h
 
 d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
@@ -98,11 +98,11 @@ d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h:
 
 .././bits.h:
 
+.././EventGroupWrapper.h:
+
 ../FreeRTOS/src/event_groups.h:
 
 ../FreeRTOS/src/timers.h:
-
-.././EventGroupWrapper.h:
 
 .././ResourceHandler.h:
 

@@ -24,9 +24,9 @@ HumidityTemperatureSensor.d HumidityTemperatureSensor.o: \
  d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  ../drivers/serial.h ../FreeRTOS/src/message_buffer.h \
  ../FreeRTOS/src/stream_buffer.h ../drivers/iled.h ../drivers/ihal.h \
- .././bits.h ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
- ../drivers/hih8120.h .././EventGroupWrapper.h .././ResourceHandler.h \
- ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h
+ .././bits.h ../drivers/hih8120.h .././EventGroupWrapper.h \
+ ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
+ .././ResourceHandler.h ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h
 
 d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
 
@@ -94,13 +94,13 @@ d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include
 
 .././bits.h:
 
-../FreeRTOS/src/event_groups.h:
-
-../FreeRTOS/src/timers.h:
-
 ../drivers/hih8120.h:
 
 .././EventGroupWrapper.h:
+
+../FreeRTOS/src/event_groups.h:
+
+../FreeRTOS/src/timers.h:
 
 .././ResourceHandler.h:
 

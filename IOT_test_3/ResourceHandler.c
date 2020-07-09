@@ -68,7 +68,7 @@ void setTemperature(float temperature_level){
 
 
 void init_resources(){
-	if(local_CO2 == NULL){
-		 local_CO2 = (uint16_t)pvPortMalloc(sizeof(uint16_t));
-		 }
+	
+	 local_CO2 = (uint16_t)pvPortMalloc(sizeof(uint16_t));
+		 
 }

@@ -21,12 +21,11 @@
 // Needed for LoRaWAN
 #include <lora_driver.h>
 #include "bits.h"
-#include "event_groups.h"
+//#include "event_groups.h"
 //#include "semphr.h"
 #include "EventGroupWrapper.h"
 #include "ResourceHandler.h"
 
-// define semaphore handle
 
 
 

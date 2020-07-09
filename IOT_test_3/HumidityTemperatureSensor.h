@@ -8,5 +8,4 @@
 void hum_temp_task( void *pvParameters );
 
 void HumidityTemperatureSensor_create();
-uint16_t getHumidity();
-uint16_t getTemperature();
+

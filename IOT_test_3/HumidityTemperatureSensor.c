@@ -5,6 +5,7 @@
  * Created: 23.5.2020 г. 10:49:34
  *  Author: Borislav Aleksiev
  */ 
+
 #include <stddef.h>
 #include <stdio.h>
 
@@ -13,7 +14,7 @@
 #include <lora_driver.h>
 #include <iled.h>
 #include "bits.h"
-#include "event_groups.h"
+//#include "event_groups.h"
 #include "hih8120.h"
 #include "EventGroupWrapper.h"
 #include "ResourceHandler.h"
@@ -48,22 +49,39 @@ void hum_temp_task( void *pvParameters )
 		EventBits_t measureBits = xEventGroupWaitBits(Measure_event_group, Hum_temp_measure_bit, pdTRUE, pdTRUE, 500);
 		
 		if((measureBits & (Hum_temp_measure_bit)) == (Hum_temp_measure_bit)){
+			
 				driver_ready_check = hih8120Wakeup();
-				if (HIH8120_OK != driver_ready_check)
-				printf("%s", "Something went wrong with HIH8120 wakeup call! Return value was: ", driver_ready_check);
+				while (driver_ready_check != HIH8120_OK)
+				{
+					printf("%s%i%s\n", "Something went wrong with HIH8120 wakeup call! Return value was: ", driver_ready_check," . Retrying...");
+					vTaskDelay(50);
+					driver_ready_check = hih8120Wakeup();
+					
+				}
+				//if (HIH8120_OK != driver_ready_check)
+				//printf("%s", "Something went wrong with HIH8120 wakeup call! Return value was: ", driver_ready_check);
 
 				vTaskDelay(60); // necessary wait delay after calling wakeup
 				
 				driver_ready_check = hih8120Meassure();
-				if (HIH8120_OK != driver_ready_check)
-				printf("%s", "Something went wrong with HIH8120 Measure call! Return value was: ", driver_ready_check);
+				
+				while (driver_ready_check != HIH8120_OK)
+				{
+					printf("%s%i%s\n", "Something went wrong with HIH8120 measure call! Return value was: ", driver_ready_check," . Retrying...");
+					vTaskDelay(50);
+					driver_ready_check = hih8120Meassure();
+				}
+				
+				vTaskDelay(20); // giving it some time to get the values
+			
 				setHumidity(hih8120GetHumidity());
 				setTemperature(hih8120GetTemperature());
 				
+				
 				printf("%s%i%s\n", "Arduino humidity level: ", (int)getHumidity(), "%");
-				printf("%s%i%s\n","Arduino temperature : ", (int)getTemperature(), "C");
+				printf("%s%i%s\n","Arduino temperature: ", (int)getTemperature(), "C");
 				xEventGroupSetBits(Data_event_group, Hum_temp_data_bit);
-				vTaskDelay(150);
+				//vTaskDelay(150);
 				//getTemperature();
 				//getHumidity();
 		}		

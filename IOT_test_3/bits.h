@@ -12,6 +12,7 @@
 
 #define CO2_data_bit ( 1 << 2 )
 #define Hum_temp_data_bit ( 1 << 3 )
+
 #define BIT_4 ( 1 << 4 )
 #define BIT_5 ( 1 << 5 )
 
