@@ -33,9 +33,6 @@
 void lora_handler_create(UBaseType_t lora_handler_task_priority);
 
 
-//EventBits_t Measure_bits = (CO2_measure_bit|Hum_temp_measure_bit);
-//EventBits_t Data_bits = (CO2_data_bit|Hum_temp_data_bit);
-
 
 
 /*-----------------------------------------------------------*/

@@ -31,7 +31,7 @@ void CO2Sensor_create()
 		(const portCHAR *)"CO2HandTask",  
 		configMINIMAL_STACK_SIZE+200,
 		NULL,
-		3,
+		2,
 		NULL 
 	);
 }
