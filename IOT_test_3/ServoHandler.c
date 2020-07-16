@@ -17,14 +17,15 @@
 #include "rcServo.h"
 #include "ServoHandler.h"
 #include "lora_driver.h"
+#include "MessageBufferHandler.h"
 
-/*
+
 //MessageBufferHandle_t down_link_message_buffer_handle = xMessageBufferCreate(sizeof(lora_payload_t)*2);
 
 lora_payload_t downlink_payload;
 const uint8_t servoNo = 0;
 int8_t percent = 100;
-
+extern MessageBufferHandle_t xMessageBuffer; // NOTE: Make message buffer header file and initialize it in main
 
 void Servo_handler_task( void *pvParameters );
 
@@ -43,7 +44,7 @@ void ServoHandler_create(){
 void  Servo_handler_task( void *pvParameters ){	
 
   for (;;){
-
+/*
 		xMessageBufferReceive(down_link_message_buffer_handle, &downlink_payload, sizeof(lora_payload_t), portMAX_DELAY);
 		printf("DOWN LINK: from port: %d with %d bytes received!", downlink_payload.port_no, downlink_payload.len); 
 		if (4 == downlink_payload.len) // Check that we have got the expected 4 bytes
@@ -52,10 +53,35 @@ void  Servo_handler_task( void *pvParameters ){
 				percent = percent * -1;	// percent=100 (defined at top)
 				rcServoSet(servoNo,percent); // servoNo=0 (constant defined at top)
 			}
-		vTaskDelay(500);
+
 		   }
+		*/
 
+/*
+		uint8_t ucRxData[ 20 ];
+		size_t xReceivedBytes;
+		const TickType_t xBlockTime = pdMS_TO_TICKS( 20 );
 
-		vTaskDelay(1000);
+			/* Receive the next message from the message buffer.  Wait in the Blocked
+			state (so not using any CPU processing time) for a maximum of 100ms for
+			a message to become available. */
+			/*
+			xReceivedBytes = xMessageBufferReceive( xMessageBuffer,
+													( void * ) ucRxData,
+													sizeof( ucRxData ),
+													xBlockTime );
+
+			if( xReceivedBytes > 0 )
+			{
+				percent = percent * -1;
+			}
+			*/
+	
+	//rcServoSet(servoNo,percent);
+	//rcServoSet(servoNo+1,percent);
+	
+	vTaskDelay(50);
+			}
     }
-	*/
+	
+	

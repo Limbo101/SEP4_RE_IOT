@@ -62,7 +62,7 @@ SUBDIRS :=  \
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../CO2Sensor.c \
-../drivers/docs/example/loraWANHandler.c \
+../loraWANHandler.c \
 ../ResourceHandler.c \
 ../ServoHandler.c \
 ../FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.c \
@@ -88,7 +88,7 @@ ASM_SRCS +=
 
 OBJS +=  \
 CO2Sensor.o \
-drivers/docs/example/loraWANHandler.o \
+loraWANHandler.o \
 ResourceHandler.o \
 ServoHandler.o \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.o \
@@ -107,7 +107,7 @@ main.o
 
 OBJS_AS_ARGS +=  \
 CO2Sensor.o \
-drivers/docs/example/loraWANHandler.o \
+loraWANHandler.o \
 ResourceHandler.o \
 ServoHandler.o \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.o \
@@ -126,7 +126,7 @@ main.o
 
 C_DEPS +=  \
 CO2Sensor.d \
-drivers/docs/example/loraWANHandler.d \
+loraWANHandler.d \
 ResourceHandler.d \
 ServoHandler.d \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.d \
@@ -145,7 +145,7 @@ main.d
 
 C_DEPS_AS_ARGS +=  \
 CO2Sensor.d \
-drivers/docs/example/loraWANHandler.d \
+loraWANHandler.d \
 ResourceHandler.d \
 ServoHandler.d \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.d \
@@ -183,7 +183,7 @@ LINKER_SCRIPT_DEP+=
 	@echo Finished building: $<
 	
 
-drivers/docs/example/loraWANHandler.o: ../drivers/docs/example/loraWANHandler.c
+./loraWANHandler.o: .././loraWANHandler.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)D:\Atmel studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"D:\Atmel studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include" -I"../FreeRTOS/src" -I"../drivers"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "D:\Atmel studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

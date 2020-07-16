@@ -52,7 +52,7 @@ void CO2_handler_task( void *pvParameters )
 					vTaskDelay(50);
 					return_code = mh_z19_take_meassuring();
 				}
-				vTaskDelay(20); // giving it some time to set the values
+				vTaskDelay(100); // giving it some time to set the values
 				printf("%s%i\n","Arduino measurement CO2: ", getCO2());	
 				xEventGroupSetBits(Data_event_group, CO2_data_bit);
 				

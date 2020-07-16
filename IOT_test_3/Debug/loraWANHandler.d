@@ -1,6 +1,4 @@
-drivers/docs/example/loraWANHandler.d \
- drivers/docs/example/loraWANHandler.o: \
- ../drivers/docs/example/loraWANHandler.c \
+loraWANHandler.d loraWANHandler.o: .././loraWANHandler.c \
  d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -25,10 +23,9 @@ drivers/docs/example/loraWANHandler.d \
  d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  ../drivers/serial.h ../FreeRTOS/src/message_buffer.h \
  ../FreeRTOS/src/stream_buffer.h ../drivers/iled.h ../drivers/ihal.h \
- ../drivers/../bits.h ../drivers/../EventGroupWrapper.h \
- ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h \
- ../drivers/../ResourceHandler.h ../FreeRTOS/src/semphr.h \
- ../FreeRTOS/src/queue.h
+ .././bits.h .././EventGroupWrapper.h ../FreeRTOS/src/event_groups.h \
+ ../FreeRTOS/src/timers.h .././ResourceHandler.h ../FreeRTOS/src/semphr.h \
+ ../FreeRTOS/src/queue.h .././QueueHandler.h ../FreeRTOS/src/queue.h
 
 d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
 
@@ -94,16 +91,20 @@ d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include
 
 ../drivers/ihal.h:
 
-../drivers/../bits.h:
+.././bits.h:
 
-../drivers/../EventGroupWrapper.h:
+.././EventGroupWrapper.h:
 
 ../FreeRTOS/src/event_groups.h:
 
 ../FreeRTOS/src/timers.h:
 
-../drivers/../ResourceHandler.h:
+.././ResourceHandler.h:
 
 ../FreeRTOS/src/semphr.h:
+
+../FreeRTOS/src/queue.h:
+
+.././QueueHandler.h:
 
 ../FreeRTOS/src/queue.h:

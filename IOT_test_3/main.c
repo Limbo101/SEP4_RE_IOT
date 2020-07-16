@@ -1,8 +1,8 @@
 /*
 * main.c
-* Author : IHA
+* Author : Karolis Gudynas, Borislav Aleksiev, Dziugas Austys
 *
-* Example main file including LoRaWAN setup
+* 
 */
 
 #include <stdio.h>
@@ -12,7 +12,6 @@
 #include <ihal.h>
 
 #include <ATMEGA_FreeRTOS.h>
-//#include <semphr.h>
 
 #include <FreeRTOSTraceDriver.h>
 #include <stdio_driver.h>
@@ -21,18 +20,17 @@
 // Needed for LoRaWAN
 #include <lora_driver.h>
 #include "bits.h"
-//#include "event_groups.h"
-//#include "semphr.h"
 #include "EventGroupWrapper.h"
 #include "ResourceHandler.h"
-
+#include "MessageBufferHandler.h"
 
 
 
 // Prototype for LoRaWAN handler
-void lora_handler_create(UBaseType_t lora_handler_task_priority);
+void lora_send_task_create(UBaseType_t lora_handler_task_priority);
+//void lora_receive_task_create();
 
-
+//extern MessageBufferHandle_t xMessageBuffer; 
 
 
 /*-----------------------------------------------------------*/
@@ -69,26 +67,30 @@ void create_tasks_and_semaphores(void)
 		}
 	}
 	
-	init_resources();
-	
+		init_resources();
 		HumidityTemperatureSensor_create();
 		CO2Sensor_create();
 		
 }
 
-void create_Event_Groups()
+void create_event_groups_and_queues()
 {
+	//xMessageBuffer = xMessageBufferCreate(100); // change this if doesn't work
 	
 	Measure_event_group = xEventGroupCreate();
-	if(Measure_event_group == NULL)
-	{
+	if(Measure_event_group == NULL){
 			printf("%s\n","#ERROR - Measure_event_group was NOT created because there was insufficient FreeRTOS heap available");
-		}
+	}
 	Data_event_group = xEventGroupCreate();
 	if(Data_event_group == NULL) 
 			printf("%s\n","#ERROR - Measure_event_group was NOT created because there was insufficient FreeRTOS heap available");
 	
-	
+	/*
+	Send_receive_event_group = xEventGroupCreate();
+	if(Send_receive_event_group == NULL){
+	//	printf("%s\n","#ERROR - Send_receive_event_group was NOT created because there was insufficient FreeRTOS heap available");
+	}
+	*/
 }
 
 
@@ -105,19 +107,21 @@ void initialiseSystem()
 	stdioCreate(ser_USART0);
 	
 	// Let's create some tasks
-	create_Event_Groups();
+	create_event_groups_and_queues();
 	create_tasks_and_semaphores();
 	
 
 	// Initialize the HAL layer and use 5 for LED driver priority
 	hal_create(5);
 	
-	// Initialize the LoRaWAN driver without down-link buffer
-	lora_driver_create(LORA_USART, NULL);
+	// Initialize the LoRaWAN driver with down-link buffer
+	lora_driver_create(LORA_USART, NULL); 
 	
 	// Create LoRaWAN task and start it up with priority 3
-	lora_handler_create(3);
-	//ServoHandler_create();
+	lora_send_task_create(3);
+//
+//	lora_receive_task_create();
+//	ServoHandler_create();
 }
 
 /*-----------------------------------------------------------*/

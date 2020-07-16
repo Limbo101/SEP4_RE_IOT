@@ -4,7 +4,7 @@
 
 CO2Sensor.c
 
-drivers\docs\example\loraWANHandler.c
+loraWANHandler.c
 
 ResourceHandler.c
 
