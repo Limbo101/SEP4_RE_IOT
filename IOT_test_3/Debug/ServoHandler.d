@@ -25,7 +25,7 @@ ServoHandler.d ServoHandler.o: .././ServoHandler.c \
  ../FreeRTOS/src/stream_buffer.h ../drivers/iled.h ../drivers/ihal.h \
  ../drivers/hal_defs.h .././bits.h ../FreeRTOS/src/event_groups.h \
  ../FreeRTOS/src/timers.h ../drivers/rcServo.h .././ServoHandler.h \
- .././MessageBufferHandler.h
+ .././EventGroupWrapper.h .././DownlinkWrapper.h
 
 d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
 
@@ -103,4 +103,6 @@ d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include
 
 .././ServoHandler.h:
 
-.././MessageBufferHandler.h:
+.././EventGroupWrapper.h:
+
+.././DownlinkWrapper.h:

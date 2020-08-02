@@ -7,6 +7,4 @@
 
 #include <queue.h>
 
-QueueHandle_t CO2_Queue;
-//QueueHandle_t Humidity_Queue;
-//QueueHandle_t Temperature_Queue;
+QueueHandle_t Message_queue;

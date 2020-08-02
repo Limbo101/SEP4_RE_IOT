@@ -2,7 +2,7 @@
  * EventGroupWrapper.h
  *
  * Created: 7/2/2020 9:04:58 PM
- *  Author: Karolis
+ *  Author: Borislav Aleksiev, Karolis Gudynas, Dziugas Austys
  */ 
 #include "event_groups.h"
 

@@ -6,6 +6,8 @@ CO2Sensor.c
 
 loraWANHandler.c
 
+PacketAssembly.c
+
 ResourceHandler.c
 
 ServoHandler.c

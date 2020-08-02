@@ -23,7 +23,7 @@ bool isTaken_CO2 = 0;
 bool isTaken_humidity = 0;
 bool isTaken_temperature = 0;
 
-extern QueueHandle_t CO2_Queue;
+//extern QueueHandle_t CO2_Queue;
 //extern QueueHandle_t Temperature_Queue;
 //extern QueueHandle_t Humidity_Queue;
 
@@ -40,7 +40,7 @@ void setCO2(uint16_t CO2){
 	xSemaphoreTake(Mutex_CO2,1000);
 	isTaken_CO2 = 1;
 	local_CO2 = CO2;
-	xQueueSend(CO2_Queue, &local_CO2,portMAX_DELAY); // enqueue it
+	//xQueueSend(CO2_Queue, &local_CO2,portMAX_DELAY); // enqueue it
 	xSemaphoreGive(Mutex_CO2);
 	isTaken_CO2 = 0;
 }

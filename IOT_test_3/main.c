@@ -6,8 +6,8 @@
 */
 
 #include <stdio.h>
-#include <avr/io.h>
-#include <avr/sfr_defs.h>
+//#include <avr/io.h>
+//#include <avr/sfr_defs.h>
 #include <hal_defs.h>
 #include <ihal.h>
 
@@ -22,7 +22,11 @@
 #include "bits.h"
 #include "EventGroupWrapper.h"
 #include "ResourceHandler.h"
-#include "MessageBufferHandler.h"
+#include "DownlinkWrapper.h"
+#include "QueueHandler.h"
+#include "PacketAssembly.h"
+
+extern QueueHandle_t Message_queue;
 
 
 
@@ -30,7 +34,7 @@
 void lora_send_task_create(UBaseType_t lora_handler_task_priority);
 //void lora_receive_task_create();
 
-//extern MessageBufferHandle_t xMessageBuffer; 
+extern MessageBufferHandle_t Messadown_link_message_buffer_handle;
 
 
 /*-----------------------------------------------------------*/
@@ -68,29 +72,28 @@ void create_tasks_and_semaphores(void)
 	}
 	
 		init_resources();
+		ServoHandler_create();
 		HumidityTemperatureSensor_create();
 		CO2Sensor_create();
+		PacketAssembly_create();
+		
 		
 }
 
 void create_event_groups_and_queues()
 {
-	//xMessageBuffer = xMessageBufferCreate(100); // change this if doesn't work
+
 	
 	Measure_event_group = xEventGroupCreate();
-	if(Measure_event_group == NULL){
+	if(Measure_event_group == NULL)
 			printf("%s\n","#ERROR - Measure_event_group was NOT created because there was insufficient FreeRTOS heap available");
-	}
 	Data_event_group = xEventGroupCreate();
 	if(Data_event_group == NULL) 
 			printf("%s\n","#ERROR - Measure_event_group was NOT created because there was insufficient FreeRTOS heap available");
+	Message_queue = xQueueCreate(10,sizeof(lora_payload_t));
 	
-	/*
-	Send_receive_event_group = xEventGroupCreate();
-	if(Send_receive_event_group == NULL){
-	//	printf("%s\n","#ERROR - Send_receive_event_group was NOT created because there was insufficient FreeRTOS heap available");
-	}
-	*/
+	
+	
 }
 
 
@@ -98,7 +101,7 @@ void create_event_groups_and_queues()
 void initialiseSystem()
 {
 	// Set output ports for LEDS used in the example
-	DDRA |= _BV(DDA0) | _BV(DDA7);
+	//DDRA |= _BV(DDA0) | _BV(DDA7);
 	
 	// Initialize the trace-driver to be used together with the R2R-Network
 	trace_init();
@@ -107,6 +110,12 @@ void initialiseSystem()
 	stdioCreate(ser_USART0);
 	
 	// Let's create some tasks
+	down_link_message_buffer_handle = xMessageBufferCreate(sizeof(lora_payload_t)*2);
+	if(down_link_message_buffer_handle == NULL){
+		printf("%s\n","Message buffer not created!!");
+	}
+	//else printf("%s\n","Message buffer created!");
+	
 	create_event_groups_and_queues();
 	create_tasks_and_semaphores();
 	
@@ -115,13 +124,14 @@ void initialiseSystem()
 	hal_create(5);
 	
 	// Initialize the LoRaWAN driver with down-link buffer
-	lora_driver_create(LORA_USART, NULL); 
+	
+	lora_driver_create(LORA_USART, down_link_message_buffer_handle); 
 	
 	// Create LoRaWAN task and start it up with priority 3
 	lora_send_task_create(3);
 //
 //	lora_receive_task_create();
-//	ServoHandler_create();
+	
 }
 
 /*-----------------------------------------------------------*/

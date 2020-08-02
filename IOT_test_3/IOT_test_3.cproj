@@ -165,6 +165,9 @@
     <Compile Include="CO2Sensor.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="DownlinkWrapper.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="drivers\display_7seg.h">
       <SubType>compile</SubType>
     </Compile>
@@ -174,7 +177,10 @@
     <Compile Include="loraWANHandler.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MessageBufferHandler.h">
+    <Compile Include="PacketAssembly.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PacketAssembly.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="QueueHandler.h">

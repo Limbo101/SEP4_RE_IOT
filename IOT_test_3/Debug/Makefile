@@ -63,6 +63,7 @@ SUBDIRS :=  \
 C_SRCS +=  \
 ../CO2Sensor.c \
 ../loraWANHandler.c \
+../PacketAssembly.c \
 ../ResourceHandler.c \
 ../ServoHandler.c \
 ../FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.c \
@@ -89,6 +90,7 @@ ASM_SRCS +=
 OBJS +=  \
 CO2Sensor.o \
 loraWANHandler.o \
+PacketAssembly.o \
 ResourceHandler.o \
 ServoHandler.o \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.o \
@@ -108,6 +110,7 @@ main.o
 OBJS_AS_ARGS +=  \
 CO2Sensor.o \
 loraWANHandler.o \
+PacketAssembly.o \
 ResourceHandler.o \
 ServoHandler.o \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.o \
@@ -127,6 +130,7 @@ main.o
 C_DEPS +=  \
 CO2Sensor.d \
 loraWANHandler.d \
+PacketAssembly.d \
 ResourceHandler.d \
 ServoHandler.d \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.d \
@@ -146,6 +150,7 @@ main.d
 C_DEPS_AS_ARGS +=  \
 CO2Sensor.d \
 loraWANHandler.d \
+PacketAssembly.d \
 ResourceHandler.d \
 ServoHandler.d \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.d \
@@ -184,6 +189,13 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./loraWANHandler.o: .././loraWANHandler.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)D:\Atmel studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"D:\Atmel studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include" -I"../FreeRTOS/src" -I"../drivers"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "D:\Atmel studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./PacketAssembly.o: .././PacketAssembly.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)D:\Atmel studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"D:\Atmel studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include" -I"../FreeRTOS/src" -I"../drivers"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "D:\Atmel studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
