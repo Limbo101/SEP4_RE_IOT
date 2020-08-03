@@ -10,17 +10,18 @@
 #include <lora_driver.h>
 #include <iled.h>
 
+#include "hal_defs.h"
 #include "queue.h"
 #include "event_groups.h"
 #include "bits.h"
 #include "EventGroupWrapper.h"
 #include "QueueHandler.h"
+#include "DownlinkWrapper.h"
 
 
-// Parameters for OTAA join - You have got these in a mail from IHA
+// Parameters for OTAA join
 #define LORA_appEUI "F2241CBDAB5FAA1E"
 #define LORA_appKEY "85482418A816EBCBBDB81F0F418B6597"
-
 
 static char _out_buf[100]; 
 
@@ -31,14 +32,14 @@ static lora_payload_t _uplink_payload;
 
 void lora_send_task_create(UBaseType_t lora_handler_task_priority)
 {	
+	lora_driver_create(LORA_USART, down_link_message_buffer_handle); 
 	xTaskCreate(
-	lora_send_task
-	,  (const portCHAR *)"LRHand"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE+200  // This stack size can be checked & adjusted by reading the Stack Highwater
-	,  NULL
-	,  lora_handler_task_priority  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-	,  NULL );
-
+	  lora_send_task, 
+	  (const portCHAR *)"LRHand",  // A name just for humans
+	  configMINIMAL_STACK_SIZE+200,  // This stack size can be checked & adjusted by reading the Stack Highwater
+	  NULL,
+	  lora_handler_task_priority,  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	  NULL );
 }
 
 
@@ -69,26 +70,24 @@ bool lora_setup(){
 			return_code = lora_driver_join(LoRa_OTAA);
 			printf("Join Network TriesLeft: %d >%s<\n", maxJoinTriesLeft, lora_driver_map_return_code_to_text(return_code));
 
-			if(return_code == LoRa_NO_FREE_CH){
+			if(return_code == LoRa_NO_FREE_CH){ // if no free channel - restart entire connection session
 				return 0;
 			}
 
-			else if ( return_code != LoRa_ACCEPTED && return_code != LoRa_NO_FREE_CH)
-			{
+			else if ( return_code != LoRa_ACCEPTED && return_code != LoRa_NO_FREE_CH){ // Keep trying with same session
 				// Make the red led pulse to tell something went wrong
 				led_long_puls(led_ST1); // OPTIONAL
 				// Wait 5 sec and lets try again
 				vTaskDelay(pdMS_TO_TICKS(5000UL));
 			}
 			
-			else if(return_code == LoRa_ACCEPTED)
-			{
-				return 1;
+			else if(return_code == LoRa_ACCEPTED){
+				return 1; // Connection success!
 			}
 			
 		} while (--maxJoinTriesLeft);
 		
-			return 0;
+			return 0; // connection session failed
 }
 
 /*-----------------------------------------------------------*/
@@ -109,7 +108,7 @@ void lora_send_task( void *pvParameters ){
 	
 		bool setup_value = 0;
 	
-		while(setup_value == 0){
+		while(setup_value == 0){	// while lora setup in not comfirmed, retry the connection
 			setup_value = lora_setup();	
 		}
 		 TickType_t xLastWakeTime;
@@ -118,20 +117,19 @@ void lora_send_task( void *pvParameters ){
 		 
 		 while(1)
 		 {
-				vTaskDelayUntil( &xLastWakeTime, xFrequency ); 
-				xEventGroupSetBits(Measure_event_group, CO2_measure_bit|Hum_temp_measure_bit); 
-				EventBits_t dataBits = xEventGroupWaitBits(Data_event_group, Send_data_bit, pdTRUE, pdTRUE, 500);
-				if((dataBits & (Send_data_bit)) == (Send_data_bit)){			
-					BaseType_t dequeue = xQueueReceive(Message_queue, &_uplink_payload, portMAX_DELAY);
-					if(dequeue == pdTRUE){				
-						rc = lora_driver_sent_upload_message(false, &_uplink_payload);
-						printf("Upload Message >%s<\n", lora_driver_map_return_code_to_text(rc));
-						if(rc == LoRa_NO_FREE_CH){
-							break;
-						}
+			vTaskDelayUntil( &xLastWakeTime, xFrequency ); 
+			xEventGroupSetBits(Measure_event_group, CO2_measure_bit|Hum_temp_measure_bit); // allow sensors to measure
+			EventBits_t dataBits = xEventGroupWaitBits(Data_event_group, Send_data_bit, pdTRUE, pdTRUE, 500); // wait for package
+			if((dataBits & (Send_data_bit)) == (Send_data_bit)){			
+				BaseType_t dequeue = xQueueReceive(Message_queue, &_uplink_payload, portMAX_DELAY); // take package
+				if(dequeue == pdTRUE){				
+					rc = lora_driver_sent_upload_message(false, &_uplink_payload); // send package
+					printf("Upload Message >%s<\n", lora_driver_map_return_code_to_text(rc)); // display result
+					if(rc == LoRa_NO_FREE_CH){ // After 5-8 messages LORIOT responds with no free channel, restart connection in that case
+						break;
 					}
 				}
+			}
 		 }
-	
 	}	
 }

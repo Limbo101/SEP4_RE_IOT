@@ -26,9 +26,9 @@ main.d main.o: .././main.c \
  ../drivers/stdio_driver.h ../drivers/lora_driver.h \
  ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
  .././bits.h .././EventGroupWrapper.h ../FreeRTOS/src/event_groups.h \
- ../FreeRTOS/src/timers.h .././ResourceHandler.h ../FreeRTOS/src/semphr.h \
- ../FreeRTOS/src/queue.h .././DownlinkWrapper.h .././QueueHandler.h \
- ../FreeRTOS/src/queue.h .././PacketAssembly.h
+ ../FreeRTOS/src/timers.h .././DownlinkWrapper.h .././QueueHandler.h \
+ ../FreeRTOS/src/queue.h .././PacketAssembly.h .././ResourceHandler.h \
+ ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h
 
 d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
@@ -106,12 +106,6 @@ d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h:
 
 ../FreeRTOS/src/timers.h:
 
-.././ResourceHandler.h:
-
-../FreeRTOS/src/semphr.h:
-
-../FreeRTOS/src/queue.h:
-
 .././DownlinkWrapper.h:
 
 .././QueueHandler.h:
@@ -119,3 +113,9 @@ d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h:
 ../FreeRTOS/src/queue.h:
 
 .././PacketAssembly.h:
+
+.././ResourceHandler.h:
+
+../FreeRTOS/src/semphr.h:
+
+../FreeRTOS/src/queue.h:

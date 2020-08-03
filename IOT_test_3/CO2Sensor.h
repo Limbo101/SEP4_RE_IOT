@@ -3,7 +3,7 @@
  * CO2Handler.h
  *
  * Created: 23.5.2020 г. 11:10:11
- *  Author: Borislav Aleksiev
+ *  Author: Borislav Aleksiev, Karolis Gudynas, Dziugas Austys
   */ 
 
 void CO2_handler_task( void *pvParameters );

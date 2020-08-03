@@ -8,4 +8,3 @@
 
 EventGroupHandle_t Measure_event_group;
 EventGroupHandle_t Data_event_group;
-EventGroupHandle_t Send_receive_event_group;

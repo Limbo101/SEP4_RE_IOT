@@ -14,7 +14,6 @@
 #include <lora_driver.h>
 #include <iled.h>
 #include "bits.h"
-//#include "event_groups.h"
 #include "mh_z19.h"
 #include "EventGroupWrapper.h"
 #include "ResourceHandler.h"
@@ -36,29 +35,17 @@ void CO2Sensor_create()
 	);
 }
 
-
-void CO2_handler_task( void *pvParameters )
-{
-
-	for (;;) 
-	{
-		
-		EventBits_t measureBits = xEventGroupWaitBits(Measure_event_group, CO2_measure_bit, pdTRUE, pdTRUE, 500);
-		if((measureBits & (CO2_measure_bit)) == (CO2_measure_bit))
-		{
+void CO2_handler_task( void *pvParameters ){
+	for (;;) {
+		EventBits_t measureBits = xEventGroupWaitBits(Measure_event_group, CO2_measure_bit, pdTRUE, pdTRUE, 500); // wait for permission from loraHandler
+		if((measureBits & (CO2_measure_bit)) == (CO2_measure_bit)){
+			return_code = mh_z19_take_meassuring();
+			while(return_code != MHZ19_OK){ // measure until confirmation is received
+				vTaskDelay(50);
 				return_code = mh_z19_take_meassuring();
-				while(return_code != MHZ19_OK){
-					vTaskDelay(50);
-					return_code = mh_z19_take_meassuring();
-				}
-				vTaskDelay(100); // giving it some time to set the values
-				xEventGroupSetBits(Data_event_group, CO2_data_bit);
-				
+			}
+			vTaskDelay(100); // giving it some time to set the values
+			xEventGroupSetBits(Data_event_group, CO2_data_bit);		 // signal PacketAssembly
 		}
-		
-	
-
 	}
 }
-
-//mh_z19_return_code_t

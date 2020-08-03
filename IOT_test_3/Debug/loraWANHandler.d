@@ -23,9 +23,9 @@ loraWANHandler.d loraWANHandler.o: .././loraWANHandler.c \
  d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  ../drivers/serial.h ../FreeRTOS/src/message_buffer.h \
  ../FreeRTOS/src/stream_buffer.h ../drivers/iled.h ../drivers/ihal.h \
- ../FreeRTOS/src/queue.h ../FreeRTOS/src/event_groups.h \
- ../FreeRTOS/src/timers.h .././bits.h .././EventGroupWrapper.h \
- .././QueueHandler.h
+ ../drivers/hal_defs.h ../FreeRTOS/src/queue.h \
+ ../FreeRTOS/src/event_groups.h ../FreeRTOS/src/timers.h .././bits.h \
+ .././EventGroupWrapper.h .././QueueHandler.h .././DownlinkWrapper.h
 
 d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
 
@@ -91,6 +91,8 @@ d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include
 
 ../drivers/ihal.h:
 
+../drivers/hal_defs.h:
+
 ../FreeRTOS/src/queue.h:
 
 ../FreeRTOS/src/event_groups.h:
@@ -102,3 +104,5 @@ d:\atmel\ studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include
 .././EventGroupWrapper.h:
 
 .././QueueHandler.h:
+
+.././DownlinkWrapper.h:

@@ -5,8 +5,6 @@
  *  Author: Borislav Aleksiev, Dziugas Austys, Karolis Gudynas
  */ 
 
-
 void ServoHandler_create();
-
 void  Servo_handler_task( void *pvParameters);
 

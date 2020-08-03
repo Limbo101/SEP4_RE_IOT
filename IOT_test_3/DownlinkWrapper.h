@@ -3,7 +3,7 @@
  * DownlinkWrapper.h
  *
  * Created: 7/28/2020 11:59:16 AM
- *  Author: Karolis
+ *  Author: Borislav Aleksiev, Karolis Gudynas, Dziugas Austys
  */ 
 
 

@@ -15,7 +15,6 @@
 #include "bits.h"
 
 lora_payload_t payload_to_queue;
-
 extern QueueHandle_t Message_queue;
 
 void packet_assembly_task();
@@ -24,26 +23,23 @@ void PacketAssembly_create()
 {
 	xTaskCreate(
 	packet_assembly_task,
-	(const portCHAR *)"PackAssembly",  // A name just for humans
-	configMINIMAL_STACK_SIZE+50,  // This stack size can be checked & adjusted by reading the Stack Highwater
+	(const portCHAR *)"PackAssembly", 
+	configMINIMAL_STACK_SIZE+50,  
 	NULL,
-	2,  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	2,
 	NULL
 	);
 }
 
-
 void packet_assembly_task(){
-	
 	for(;;){
-		
-		EventBits_t dataBits = xEventGroupWaitBits(Data_event_group, CO2_data_bit|Hum_temp_data_bit, pdTRUE, pdTRUE, 500);
+		EventBits_t dataBits = xEventGroupWaitBits(Data_event_group, CO2_data_bit|Hum_temp_data_bit, pdTRUE, pdTRUE, 500); // wait for data from sensors
 		if((dataBits & (CO2_data_bit|Hum_temp_data_bit)) == (CO2_data_bit|Hum_temp_data_bit)){
-			
+			// retrieve data
 			uint16_t hum = (int) getHumidity();
 			int16_t temp = (int) getTemperature();
 			uint16_t co2_ppm = getCO2();
-			
+			// put data to package
 			payload_to_queue.len = 6;
 			payload_to_queue.port_no = 2;
 			payload_to_queue.bytes[0] = hum >> 8;
@@ -52,9 +48,9 @@ void packet_assembly_task(){
 			payload_to_queue.bytes[3] = temp & 0xFF;
 			payload_to_queue.bytes[4] = co2_ppm >> 8;
 			payload_to_queue.bytes[5] = co2_ppm & 0xFF;
-			//printf("%i\n",payload_to_queue.bytes[0]);
-			xQueueSend(Message_queue, &payload_to_queue,portMAX_DELAY);
-			
+			// put packet into queue
+			xQueueSend(Message_queue, &payload_to_queue,portMAX_DELAY); 
+			// signal that data is packed and ready to be sent
 			xEventGroupSetBits(Data_event_group, Send_data_bit);
 		}
 	}

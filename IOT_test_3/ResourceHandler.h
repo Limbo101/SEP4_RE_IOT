@@ -8,9 +8,6 @@
 #ifndef ResourceHandler.h
 #define ResourceHandler.h
 
-
-
-
 #include <ATMEGA_FreeRTOS.h>
 #include <stddef.h>
 #include "semphr.h"
